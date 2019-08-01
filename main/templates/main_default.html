@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="30">
+    <title>Listing values</title>
+    <style>
+        td, th { border: 1px solid #000; padding: 1px; }
+        button { font-size: large; }
+    </style>
+</head>
+<body>
+    <h1>Listing Database Records</h1>
+    <form action="{% url 'generate' %}" method="post" onsubmit="document.getElementById('submit').disabled = true">
+        <button type="submit" id="submit">Generate!</button>
+        <em>Last Updated: {% now "r" %}</em>
+        {% csrf_token %}
+        <br><br>
+    </form>
+    <table>
+        <tr><th>Requested</th><th>Value</th><th>Updated</th></tr>
+        {% for t in qs %}
+            <tr>
+                <td>{{ t.created|date:"r" }}</td>
+                <td>{{ t.value }}</td>
+                <td>{{ t.modified|date:"r" }}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="3">No records.</td></tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
