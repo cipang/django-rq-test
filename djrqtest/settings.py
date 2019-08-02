@@ -128,3 +128,7 @@ RQ_QUEUES = {
         'URL': os.getenv('REDISTOGO_URL', 'redis://localhost:6379/0'),
     },
 }
+
+RQ = {
+    'JOB_CLASS': 'main.jobs.JobBase',
+}

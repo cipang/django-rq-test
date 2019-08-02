@@ -1,6 +1,6 @@
 from random import randint
 
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect
 from django.utils.timezone import now
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView
@@ -21,16 +21,14 @@ class DefaultView(TemplateView):
 def generate_view(request):
     t = T(created=now())
     t.save()
-    enqueue(update_record, t.id)
+    enqueue(update_record, int(request.POST.get("d") or 0), job_id=str(t.id))
     return redirect("home")
 
 
 @job
-def update_record(object_id):
-    t = get_object_or_404(T, id=object_id)
-    x = randint(10000, 99999)
+def update_record(d):
+    x = randint(10000, 99999) / d
     for i in range(10000000):
         x += (randint(100, 999) - randint(100, 999))
-    t.value = f"Added {x}"
-    t.modified = now()
-    t.save()
+    return f"Added {x}"
+
