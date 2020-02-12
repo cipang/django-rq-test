@@ -1,4 +1,4 @@
-Django==2.2.3
+Django==2.2.10
 django-rq==2.1.0
 redis==3.3.4
 rq==1.1.0
